@@ -180,7 +180,7 @@
     </div>
 </details>
 
-<details class="area-granada" open>
+<details class="area-granada">
     <summary>2/14 (六) 轉機：杜拜 → 馬德里 → 格拉納達</summary>
     <div class="content">
         <h3>⏳ 轉機資訊 (杜拜)</h3>
@@ -477,10 +477,27 @@
         }
     }
     updateWeather();
+    // 3. 自動展開今天的行程
+function openToday() {
+    const today = new Date();
+    const dateString = `${today.getMonth() + 1}/${today.getDate()}`; // 格式如 "2/15"
+    
+    const summaries = document.querySelectorAll('summary');
+    summaries.forEach(summary => {
+        if (summary.innerText.includes(dateString)) {
+            summary.parentElement.open = true;
+            // 讓畫面自動捲動到該位置
+            summary.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
+// 執行自動展開
+openToday();
 </script>
 
 </body>
 </html>
+
 
 
 
