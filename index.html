@@ -98,7 +98,30 @@
         table { width: 100%; border-collapse: collapse; margin: 10px 0; background: white; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
         .note-box { background: #ffebee; border-left: 4px solid #c62828; padding: 10px; color: #c62828; font-weight: bold; margin: 10px 0; }
-        .map-btn { color: #1565c0; text-decoration: none; font-weight: bold; border: 1px solid #1565c0; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; }
+        .map-btn { display: inline-block;      /* 讓框具有區塊屬性但維持行內流動 */
+                    border: 1px solid #1565c0;  /* 藍色邊框 */
+                    background-color: #f0f7ff;  /* 淡淡的底色 */
+                    color: #1565c0;
+                    text-decoration: none;
+                    border-radius: 6px;         /* 圓角 */
+                    padding: 3px 8px;           /* 增加一點點點擊空間 */
+                    font-size: 0.9em;
+                    font-weight: bold;
+                    
+                    /* 核心修正：強制在框內換行 */
+                    word-break: break-word;     /* 當寬度不足時，在單字間或單字內換行 */
+                    white-space: normal;        /* 允許文字折行 */
+                    line-height: 1.4;           /* 換行後的行間距 */
+                    max-width: 100%;            /* 確保不會超出表格格子的寬度 */
+                    box-sizing: border-box;     /* 邊框不撐大寬度 */
+                    
+                    vertical-align: middle;
+                }
+                
+                /* 手機點擊效果 */
+                .map-btn:active { background-color: #d1e9ff;
+                }
+
     </style>
 </head>
 <body>
