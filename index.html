@@ -58,30 +58,53 @@
         }
         #money-btn { background: #27ae60; color: white; } /* 綠色記帳按鈕 */
 
-        /* 彈出視窗背景 */
+        /* 記帳彈出視窗背景 */
         #calc-modal {
             display: none; 
             position: fixed; 
             z-index: 10000; 
             left: 0; top: 0; 
             width: 100%; height: 100%; 
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(0,0,0,0.8); /* 稍微深一點，更聚焦 */
         }
-        
-        /* 彈出視窗內容 */
+
+        /* 彈出視窗主體：固定尺寸防止縮放變形 */
         .modal-content {
             background-color: #fefefe;
-            margin: 10% auto;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%); /* 絕對居中 */
             padding: 20px;
-            border-radius: 15px;
-            width: 90%; 
-            max-width: 400px;
-            position: relative;
+            border-radius: 20px;
+            width: 85%; 
+            max-width: 380px;
+            height: 80vh; /* 固定高度，避免輸入法彈出時撐破畫面 */
+            display: flex;
+            flex-direction: column;
         }
         
+        /* 關閉按鈕加強版 */
         .close-btn {
-            position: absolute; right: 15px; top: 10px;
-            font-size: 28px; font-weight: bold; cursor: pointer;
+            align-self: flex-end;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+        
+        /* iframe 容器 */
+        #calc-frame {
+            flex-grow: 1;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+        
+        /* 針對行動端優化：強制防止輸入時放大 (如果你的 HTML head 沒設定的話) */
+        input, select, textarea {
+            font-size: 16px !important;
         }
         /* 行程區塊樣式 */
         details { margin-bottom: 12px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -108,12 +131,16 @@
 <body>
 
 <div id="floating-group">
-    <div id="calc-modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="toggleMoney()">&times;</span>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScIUTsbj_U5NG5YAJhY2l_HCghiKU7CzJKaKIUEpG_xusj1Fw/viewform?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+    <div id="calc-modal" onclick="handleOutsideClick(event)">
+        <div class="modal-content" onclick="event.stopPropagation()"> <span class="close-btn" onclick="toggleMoney()">&times;</span>
+            
+            <iframe id="calc-frame" src="https://docs.google.com/forms/d/e/1FAIpQLScIUTsbj_U5NG5YAJhY2l_HCghiKU7CzJKaKIUEpG_xusj1Fw/viewform?embedded=true">載入中…</iframe>
+            
+            <button onclick="toggleMoney()" style="margin-top: 15px; padding: 10px; background: #27ae60; color: white; border: none; border-radius: 10px; font-weight: bold;">
+                填寫完成 / 關閉
+            </button>
         </div>
-    </div>
+</div>
 
     <button class="float-btn" id="money-btn" onclick="toggleMoney()">💰</button>
     
@@ -330,24 +357,30 @@
 </details>
 
 <script>
+// 控制視窗開關
 function toggleMoney() {
     const modal = document.getElementById('calc-modal');
-    modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+    const isOpening = modal.style.display !== 'block';
+    modal.style.display = isOpening ? 'block' : 'none';
+    
+    // 開啟時重整 iframe，確保每次打開都是空白表單
+    if (isOpening) {
+        document.getElementById('calc-frame').src = document.getElementById('calc-frame').src;
+    }
 }
 
-// 點擊視窗外部也可關閉
-window.onclick = function(event) {
+// 點擊視窗外背景關閉
+function handleOutsideClick(event) {
     const modal = document.getElementById('calc-modal');
-    if (event.target == modal) { modal.style.display = "none"; }
+    if (event.target === modal) {
+        toggleMoney();
+    }
 }
 // 天氣面板開關邏輯
     function toggleWeather() {
-        const widget = document.getElementById('weather-widget');
-        if (widget.style.display === 'none' || widget.style.display === '') {
-            widget.style.display = 'block';
-        } else {
-            widget.style.display = 'none';
-        }
+    const w = document.getElementById('weather-widget');
+    w.style.display = (w.style.display === 'none' || w.style.display === '') ? 'block' : 'none';
+}
     }
 
     // 即時天氣獲取邏輯 (新增降雨機率)
@@ -388,6 +421,7 @@ window.onclick = function(event) {
 
 </body>
 </html>
+
 
 
 
