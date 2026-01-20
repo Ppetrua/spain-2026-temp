@@ -56,6 +56,33 @@
             display: none; 
             font-size: 0.85em;
         }
+        #money-btn { background: #27ae60; color: white; } /* 綠色記帳按鈕 */
+
+        /* 彈出視窗背景 */
+        #calc-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 10000; 
+            left: 0; top: 0; 
+            width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.7);
+        }
+        
+        /* 彈出視窗內容 */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%; 
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute; right: 15px; top: 10px;
+            font-size: 28px; font-weight: bold; cursor: pointer;
+        }
         /* 行程區塊樣式 */
         details { margin-bottom: 12px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         summary { padding: 15px; font-size: 1.1em; font-weight: bold; cursor: pointer; list-style: none; outline: none; }
@@ -81,13 +108,16 @@
 <body>
 
 <div id="floating-group">
-    <div id="weather-widget">
-        <h4 style="margin:0; color: #e67e22;">🌍 當地即時天氣</h4>
-        <div id="weather-info">載入中...</div>
+    <div id="calc-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleMoney()">&times;</span>
+            <iframe src="https://forms.gle/jZbazcSetCsLrUz88?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+        </div>
     </div>
+
+    <button class="float-btn" id="money-btn" onclick="toggleMoney()">💰</button>
     
-    <a href="googleapp://" class="float-btn" id="translate-btn" title="開啟 Google 翻譯">📸</a>
-    
+    <a href="googleapp://" class="float-btn" id="translate-btn">📸</a>
     <button class="float-btn" id="weather-toggle" onclick="toggleWeather()">🌤️</button>
 </div>
 
@@ -299,6 +329,16 @@
 </details>
 
 <script>
+function toggleMoney() {
+    const modal = document.getElementById('calc-modal');
+    modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+}
+
+// 點擊視窗外部也可關閉
+window.onclick = function(event) {
+    const modal = document.getElementById('calc-modal');
+    if (event.target == modal) { modal.style.display = "none"; }
+}
 // 天氣面板開關邏輯
     function toggleWeather() {
         const widget = document.getElementById('weather-widget');
@@ -347,6 +387,7 @@
 
 </body>
 </html>
+
 
 
 
