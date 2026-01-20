@@ -6,10 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2026 安達魯西亞完整行程表</title>
     <style>
-        :root {
-            --granada-bg: #e3f2fd;
-            --ronda-bg: #f1f8e9;
-            --sevilla-bg: #fff3e0;
+        /* --- 恢復區域分色樣式 --- */
+
+        /* 格拉納達 (藍色) */
+        .area-granada summary { 
+            background-color: #2196f3; 
+            color: white; 
+        }
+        .area-granada .content { 
+            background-color: var(--granada-bg); 
+        }
+        
+        /* 龍達 (綠色) */
+        .area-ronda summary { 
+            background-color: #4caf50; 
+            color: white; 
+        }
+        .area-ronda .content { 
+            background-color: var(--ronda-bg); 
+        }
+        
+        /* 塞維利亞 (橘色) */
+        .area-sevilla summary { 
+            background-color: #ff9800; 
+            color: white; 
+        }
+        .area-sevilla .content { 
+            background-color: var(--sevilla-bg); 
         }
         body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; line-height: 1.6; max-width: 900px; margin: auto; padding: 20px; background: #fdfdfd; color: #333; }
         
@@ -458,6 +481,7 @@
 
 </body>
 </html>
+
 
 
 
