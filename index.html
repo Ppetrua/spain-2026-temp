@@ -252,11 +252,17 @@
 </details>
 
 <script>
+// 天氣面板開關邏輯
     function toggleWeather() {
         const widget = document.getElementById('weather-widget');
-        widget.style.display = (widget.style.display === 'none' || widget.style.display === '') ? 'block' : 'none';
+        if (widget.style.display === 'none' || widget.style.display === '') {
+            widget.style.display = 'block';
+        } else {
+            widget.style.display = 'none';
+        }
     }
 
+    // 即時天氣獲取邏輯 (新增降雨機率)
     const cities = [
         { name: '格拉納達', lat: 37.1773, lon: -3.5986 },
         { name: '龍達', lat: 36.7462, lon: -5.1612 },
@@ -266,11 +272,24 @@
     async function updateWeather() {
         const infoDiv = document.getElementById('weather-info');
         infoDiv.innerHTML = '';
+        
         for (let city of cities) {
             try {
-                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true`);
+                // 新增 hourly=precipitation_probability 以取得降雨機率 (取目前該小時的數值)
+                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&hourly=precipitation_probability`);
                 const data = await response.json();
-                infoDiv.innerHTML += `<div class="weather-city">${city.name}</div><div>🌡️ ${data.current_weather.temperature}°C</div>`;
+                
+                const temp = data.current_weather.temperature;
+                
+                // 取得當前小時對應的降雨機率索引
+                const now = new Date();
+                const currentHour = now.getHours();
+                const rainProb = data.hourly.precipitation_probability[currentHour];
+                
+                infoDiv.innerHTML += `
+                    <div class="weather-city">${city.name}</div>
+                    <div>🌡️ ${temp}°C | ☔ ${rainProb}%</div>
+                `;
             } catch (e) {
                 infoDiv.innerHTML += `<div>${city.name}: 讀取失敗</div>`;
             }
@@ -281,6 +300,7 @@
 
 </body>
 </html>
+
 
 
 
