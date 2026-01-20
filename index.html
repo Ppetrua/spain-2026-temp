@@ -13,43 +13,49 @@
         }
         body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; line-height: 1.6; max-width: 900px; margin: auto; padding: 20px; background: #fdfdfd; color: #333; }
         
-        /* --- 天氣資訊浮動按鈕 --- */
-        #weather-container {
-            position: fixed; bottom: 20px; right: 20px; z-index: 9999;
-            display: flex; flex-direction: column; align-items: flex-end;
+        /* 懸浮按鈕群組容器 */
+        #floating-group {
+            position: fixed; 
+            bottom: 25px; 
+            right: 20px; 
+            z-index: 9999;
+            display: flex; 
+            flex-direction: column; 
+            align-items: flex-end;
         }
-        #weather-widget {
-            width: 180px; background: white; border: 2px solid #34495e; border-radius: 12px;
-            padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 10px;
-            display: none; font-size: 0.85em;
-        }
-        #weather-toggle {
-            width: 50px; height: 50px; background: #34495e; color: white; border-radius: 50%;
-            border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer;
-            font-size: 22px; display: flex; align-items: center; justify-content: center;
+        
+        /* 懸浮按鈕通用樣式 */
+        .float-btn {
+            width: 54px; 
+            height: 54px; 
+            border-radius: 50%; 
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+            cursor: pointer;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-size: 24px; 
+            text-decoration: none; 
+            margin-bottom: 18px; /* 增加間距，防止誤觸 */
             -webkit-tap-highlight-color: transparent;
         }
-        .weather-city { font-weight: bold; border-bottom: 1px solid #eee; margin-top: 5px; color: #2c3e50; }
-
-        /* 翻譯按鈕樣式 */
-#translate-btn {
-    width: 50px;
-    height: 50px;
-    background: #4285F4; /* Google 藍 */
-    color: white;
-    border-radius: 50%;
-    border: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    cursor: pointer;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px; /* 與天氣按鈕隔開 */
-    text-decoration: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
+        
+        #translate-btn { background: #4285F4; color: white; }
+        #weather-toggle { background: #34495e; color: white; margin-bottom: 0; } /* 最後一個按鈕不用邊距 */
+        
+        /* 天氣小視窗 */
+        #weather-widget {
+            width: 180px; 
+            background: white; 
+            border: 2px solid #34495e; 
+            border-radius: 12px;
+            padding: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            margin-bottom: 15px;
+            display: none; 
+            font-size: 0.85em;
+        }
         /* 行程區塊樣式 */
         details { margin-bottom: 12px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         summary { padding: 15px; font-size: 1.1em; font-weight: bold; cursor: pointer; list-style: none; outline: none; }
@@ -74,15 +80,15 @@
 </head>
 <body>
 
-<div id="weather-container">
+<div id="floating-group">
     <div id="weather-widget">
         <h4 style="margin:0; color: #e67e22;">🌍 當地即時天氣</h4>
         <div id="weather-info">載入中...</div>
-        </div>
+    </div>
     
-    <a href="googleapp://" id="translate-btn" title="開啟 Google 翻譯">📸</a>
+    <a href="googleapp://" class="float-btn" id="translate-btn" title="開啟 Google 翻譯">📸</a>
     
-    <button id="weather-toggle" onclick="toggleWeather()">🌤️</button>
+    <button class="float-btn" id="weather-toggle" onclick="toggleWeather()">🌤️</button>
 </div>
 
 <h1>🇪🇸 2026 安達魯西亞行程統整</h1>
@@ -341,6 +347,7 @@
 
 </body>
 </html>
+
 
 
 
