@@ -545,6 +545,10 @@
 </details>
 
 <script>
+    // 請將下方的網址替換成妳截圖中「網頁應用程式」的那個網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbzmnXfp2aLWYWAHixqwYxQ-nwZifXMvTyKv6EOAhqWrB3kqhNDQvliTNejr7NF0eE26Cw/exec';
+
+    // 1. 視窗控制
     function toggleMoney() {
         const m = document.getElementById('calc-modal');
         m.style.display = (m.style.display === 'block') ? 'none' : 'block';
@@ -563,27 +567,17 @@
     }
 
     function closeAllModals(e) {
-        const mModal = document.getElementById('calc-modal');
-        const dModal = document.getElementById('drink-modal-overlay');
-        const tModal = document.getElementById('translate-modal-overlay');
-        const wWidget = document.getElementById('weather-widget');
-        const wBtn = document.getElementById('weather-toggle');
-
-        if (e.target === mModal) mModal.style.display = 'none';
-        if (e.target === dModal) dModal.style.display = 'none';
-        if (e.target === tModal) tModal.style.display = 'none';
-        if (wWidget && wWidget.style.display === 'block' && !wWidget.contains(e.target) && e.target !== wBtn) {
-            wWidget.style.display = 'none';
+        if (['calc-modal', 'drink-modal-overlay', 'translate-modal-overlay'].includes(e.target.id)) {
+            e.target.style.display = 'none';
         }
     }
 
     window.addEventListener('click', closeAllModals);
-    window.addEventListener('touchstart', function(e) {
-        if (['calc-modal', 'drink-modal-overlay', 'translate-modal-overlay'].includes(e.target.id)) {
-            closeAllModals(e);
-        }
+    window.addEventListener('touchstart', (e) => {
+        if (['calc-modal', 'drink-modal-overlay', 'translate-modal-overlay'].includes(e.target.id)) closeAllModals(e);
     }, { passive: true });
 
+    // 2. 語音功能
     function speak(text) {
         const msg = new SpeechSynthesisUtterance();
         msg.text = text;
@@ -592,6 +586,94 @@
         window.speechSynthesis.speak(msg);
     }
 
+    // 3. 穩定版翻譯 (不經過 GAS)
+    async function requestTranslation() {
+        const btn = document.getElementById('transBtn');
+        const input = document.getElementById('trans-input').value;
+        const output = document.getElementById('trans-output');
+        const original = document.getElementById('trans-original');
+        const speaker = document.getElementById('trans-speaker');
+        const resultArea = document.getElementById('trans-result-area');
+
+        if (!input) return;
+        btn.innerText = '翻譯中...';
+        btn.disabled = true;
+
+        try {
+            const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=${encodeURI(input)}`);
+            const data = await res.json();
+            const translatedText = data[0][0][0];
+            output.innerText = translatedText;
+            original.innerText = `原文：${input}`;
+            speaker.onclick = () => speak(translatedText);
+            resultArea.style.display = 'block';
+        } catch (e) { 
+            alert('翻譯服務暫時不可用'); 
+        } finally { 
+            btn.innerText = '開始翻譯'; 
+            btn.disabled = false; 
+        }
+    }
+
+    // 4. 記帳發送功能
+    async function sendData() {
+        const btn = document.getElementById('sendBtn');
+        const amt = document.getElementById('amt').value;
+        const item = document.getElementById('item').value;
+        if (!amt || !item) { alert('請填寫金額與名目'); return; }
+
+        btn.innerText = '傳送中...';
+        btn.disabled = true;
+
+        try {
+            const splitPeople = Array.from(document.querySelectorAll('input[name="split"]:checked')).map(el => el.value).join(', ');
+            const fileInput = document.getElementById('receiptImg');
+            let base64Image = "";
+            
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                base64Image = await new Promise(r => { 
+                    const reader = new FileReader(); 
+                    reader.onload = () => r(reader.result.split(',')[1]); 
+                    reader.readAsDataURL(file); 
+                });
+            }
+
+            const payload = { 
+                amount: amt, 
+                item: item, 
+                method: document.getElementById('method').value, 
+                cardOwner: document.getElementById('cardOwner').value, 
+                splitPeople: splitPeople, 
+                image: base64Image 
+            };
+
+            await fetch(GAS_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify(payload) 
+            });
+
+            alert('記帳資料已發送！請稍後檢查試算表。');
+            toggleMoney();
+            // 清空
+            document.getElementById('amt').value = '';
+            document.getElementById('item').value = '';
+            document.getElementById('receiptImg').value = '';
+        } catch (e) { 
+            alert('發送失敗'); 
+        } finally { 
+            btn.innerText = '確認送出'; 
+            btn.disabled = false; 
+        }
+    }
+
+    function checkMethod() {
+        const method = document.getElementById('method').value;
+        document.getElementById('card-owner-group').style.display = (method === '信用卡') ? 'block' : 'none';
+    }
+
+    // 5. 天氣更新
     async function updateWeather() {
         const cities = [{ name: '格拉納達', lat: 37.1773, lon: -3.5986 }, { name: '龍達', lat: 36.7462, lon: -5.1612 }, { name: '塞維利亞', lat: 37.3891, lon: -5.9845 }];
         const infoDiv = document.getElementById('weather-info');
@@ -607,38 +689,11 @@
         }
     }
 
-    async function requestTranslation() {
-        const btn = document.getElementById('transBtn');
-        const input = document.getElementById('trans-input').value;
-        const resultArea = document.getElementById('trans-result-area');
-        const output = document.getElementById('trans-output');
-        const original = document.getElementById('trans-original');
-        const speaker = document.getElementById('trans-speaker');
-        if (!input) return;
-        btn.innerText = '翻譯中...';
-        btn.disabled = true;
-        try {
-            const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=${encodeURI(input)}`);
-            const data = await res.json();
-            const translatedText = data[0][0][0];
-            output.innerText = translatedText;
-            original.innerText = `原文：${input}`;
-            speaker.onclick = () => speak(translatedText);
-            resultArea.style.display = 'block';
-        } catch (e) { alert('翻譯服務不可用'); }
-        finally { btn.innerText = '開始翻譯'; btn.disabled = false; }
-    }
-
-    function checkMethod() {
-        const method = document.getElementById('method').value;
-        document.getElementById('card-owner-group').style.display = (method === '信用卡') ? 'block' : 'none';
-    }
-
-    // 初始化
     updateWeather();
 </script>
 </body>
 </html>
+
 
 
 
