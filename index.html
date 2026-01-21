@@ -4,7 +4,7 @@
     <meta name="robots" content="noindex, nofollow">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 安達魯西亞完整行程表</title>
+    <title>2026 安達魯西亞</title>
     <style>
         :root { 
             --granada-bg: #fff5f5; /* 紅色系內文底色 */
@@ -461,20 +461,35 @@
         w.style.display = (w.style.display === 'none' || w.style.display === '') ? 'block' : 'none';
     }
 
-    // 2. 全域點擊關閉
-    window.addEventListener('click', function(e) {
+    // 2. 強化版全域點擊關閉 (支援手機與電腦)
+    function closeAllModals(e) {
         const mModal = document.getElementById('calc-modal');
         const dModal = document.getElementById('drink-modal-overlay');
         const wWidget = document.getElementById('weather-widget');
         const wBtn = document.getElementById('weather-toggle');
 
-        if (e.target === mModal) mModal.style.display = 'none';
-        if (e.target === dModal) dModal.style.display = 'none';
-        if (wWidget && wWidget.style.display === 'block' && !wWidget.contains(e.target) && e.target !== wBtn) {
-            wWidget.style.display = 'none';
+        // 點擊記帳背景關閉 (手機上 e.target 判定較靈敏)
+        if (e.target === mModal) {
+            mModal.style.display = 'none';
         }
-    });
+        
+        // 點擊飲料背景關閉
+        if (e.target === dModal) {
+            dModal.style.display = 'none';
+        }
 
+        // 天氣小視窗自動關閉邏輯
+        if (wWidget && wWidget.style.display === 'block') {
+            // 如果點擊的地方不在天氣視窗內，且不是點擊那個太陽按鈕
+            if (!wWidget.contains(e.target) && e.target !== wBtn) {
+                wWidget.style.display = 'none';
+            }
+        }
+    }
+
+    // 同時監聽 click，手機瀏覽器通常能處理好 click 事件的冒泡
+    window.addEventListener('click', closeAllModals);
+	
     // 3. 語音功能
     function speak(text) {
         const msg = new SpeechSynthesisUtterance();
@@ -588,6 +603,7 @@
 		
 </body>
 </html>
+
 
 
 
