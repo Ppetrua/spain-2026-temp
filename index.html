@@ -41,7 +41,10 @@
 
         /* 小視窗樣式 */
         #weather-widget { width: 180px; background: white; border: 2px solid #34495e; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px; display: none; font-size: 0.85em; }
-        #calc-modal, #drink-modal-overlay { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
+        #calc-modal, #drink-modal-overlay { 
+			cursor: pointer; /* 增加這行可以強迫手機瀏覽器識別這是一個可點擊區域 */
+		    -webkit-tap-highlight-color: transparent; /* 移除點擊時的藍色方框 */
+			display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
         .modal-content { background-color: #fefefe; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 20px; border-radius: 20px; width: 85%; max-width: 360px; max-height: 85vh; display: flex; flex-direction: column; overflow-y: auto; }
         .close-btn { align-self: flex-end; font-size: 30px; font-weight: bold; cursor: pointer; color: #999; }
 
@@ -603,6 +606,7 @@
 		
 </body>
 </html>
+
 
 
 
