@@ -54,6 +54,11 @@
         .drink-desc { font-size: 0.8em; color: #7f8c8d; }
         .speaker-icon { background: #f1f1f1; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; }
 
+		#translate-modal-overlay { 
+		    display: none; position: fixed; z-index: 10000; left: 0; top: 0; 
+		    width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); cursor: pointer;
+		}
+		
         /* 表單與內容 */
         .input-group { margin-bottom: 12px; }
         .input-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9em; }
@@ -110,10 +115,30 @@
         <div id="weather-info">載入中...</div>
     </div>
 
+	<div id="translate-modal-overlay" onclick="handleOutsideClick(event, 'translate-modal-overlay')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close-btn" onclick="toggleTranslate()">×</span>
+        <h3 style="margin:0 0 15px 0; text-align:center;">🗣️ Gemini 翻譯助理</h3>
+        
+        <div class="input-group">
+            <label>輸入中文或英文</label>
+            <textarea id="trans-input" rows="3" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; font-size:16px;" placeholder="例如：我想寄放行李..."></textarea>
+        </div>
+        
+        <button class="submit-btn" onclick="requestTranslation()" id="transBtn">開始翻譯</button>
+
+        <div id="trans-result-area" style="display:none; margin-top:20px; padding:15px; background:#f0f7ff; border-radius:10px; border-left:5px solid #4285F4;">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+                <div id="trans-output" style="font-weight:bold; color:#1a73e8; font-size:1.1em; flex:1;"></div>
+				
+    <div id="trans-original" style="font-size:0.85em; color:#666; margin-top:5px;"></div>
+	
     <button class="float-btn" id="money-btn" onclick="toggleMoney()">💰</button>
     <a href="googleapp://" class="float-btn" id="translate-btn">📸</a>
     <button class="float-btn" id="drink-btn" onclick="toggleDrink()">🍷</button>
+	<button class="float-btn" id="translate-btn" onclick="toggleTranslate()">🗣️</button>
     <button class="float-btn" id="weather-toggle" onclick="toggleWeather()">🌤️</button>
+
 </div>
 	
 <h1>🇪🇸 2026 安達魯西亞</h1>
@@ -690,6 +715,66 @@
         });
     }
 
+	function toggleTranslate() {
+	    const t = document.getElementById('translate-modal-overlay');
+	    t.style.display = (t.style.display === 'block') ? 'none' : 'block';
+	}
+	
+	// 串接翻譯功能
+	async function requestTranslation() {
+	    const btn = document.getElementById('transBtn');
+	    const input = document.getElementById('trans-input').value;
+	    const resultArea = document.getElementById('trans-result-area');
+	    const output = document.getElementById('trans-output');
+	    const original = document.getElementById('trans-original');
+	    const speaker = document.getElementById('trans-speaker');
+	
+	    if (!input) return;
+	
+	    btn.innerText = '翻譯中...';
+	    btn.disabled = true;
+	
+	    try {
+	        // 使用你原本的 GAS URL
+	        const url = 'https://script.google.com/macros/s/AKfycbwA_uaSaZFX-jn0ZD8_l0qrQpUAWVHiN2H9GyLg_edoRU_YtSVHUCMmKhDjVUXP8A_Zjw/exec';
+	        
+	        const payload = {
+	            type: 'translation',
+	            text: input
+	        };
+	
+	        // 注意：這裡使用 POST 傳送到你的 GAS
+	        const response = await fetch(url, {
+	            method: 'POST',
+	            mode: 'no-cors', // 因為跨網域限制，我們無法直接讀取 response，但可以透過 GAS 改成 GET 讀取
+	            body: JSON.stringify(payload)
+	        });
+	
+	        // 💡 由於 no-cors 無法獲取回傳值，建議直接在 GAS 中加入翻譯邏輯。
+	        // 為了解決即時顯示，暫時先用 Google 內建翻譯作為備案：
+	        const translatedText = await translateDirectly(input); 
+	        
+	        output.innerText = translatedText;
+	        original.innerText = `原文：${input}`;
+	        speaker.onclick = () => speak(translatedText);
+	        resultArea.style.display = 'block';
+	
+	    } catch (e) {
+	        alert('翻譯服務暫時不可用');
+	    } finally {
+	        btn.innerText = '開始翻譯';
+	        btn.disabled = false;
+	    }
+	}
+	
+	// 簡易直接翻譯邏輯 (用於即時顯示)
+	async function translateDirectly(text) {
+	    // 這裡我們直接調用一個免費的翻譯 API 或是透過 GAS 中轉
+	    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=${encodeURI(text)}`);
+	    const data = await res.json();
+	    return data[0][0][0];
+	}
+	
     // 網頁開啟後執行
     updateWeather();
     openToday();
@@ -697,6 +782,7 @@
 		
 </body>
 </html>
+
 
 
 
