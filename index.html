@@ -61,6 +61,24 @@
             display: none; font-size: 0.85em;
         }
 
+		/* 飲料按鈕樣式 (紫色) */
+		#drink-btn { background: #9b59b6; color: white; }
+		
+		/* 飲料視窗內容樣式 */
+		.drink-item {
+		    border-bottom: 1px solid #eee;
+		    padding: 10px 0;
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		}
+		.drink-name { font-weight: bold; color: #2c3e50; }
+		.drink-desc { font-size: 0.8em; color: #7f8c8d; margin-top: 3px; }
+		.speaker-icon { 
+		    background: #f1f1f1; border: none; border-radius: 50%; 
+		    width: 35px; height: 35px; cursor: pointer; font-size: 16px;
+		}
+		
         /* 記帳 Modal 優化 */
         #calc-modal {
             display: none; position: fixed; z-index: 10000;
@@ -182,8 +200,62 @@
         <div id="weather-info">載入中...</div>
     </div>
 
+	<div id="drink-modal" class="modal-content" style="display:none; position:fixed; z-index:10001; top:50%; left:50%; transform:translate(-50%, -50%); height: auto; max-height: 80vh;">
+	    <span class="close-btn" onclick="toggleDrink()">×</span>
+	    <h3 style="margin-top:0;">🍷 西班牙點餐指南</h3>
+	    
+	    <div style="overflow-y: auto;">
+	        <p style="font-size: 0.8em; color: #e67e22; font-weight: bold;">[ 無酒精 / 適合媽媽 ]</p>
+	        <div class="drink-item">
+	            <div>
+	                <div class="drink-name">Mosto</div>
+	                <div class="drink-desc">未發酵葡萄汁，像濃郁果汁</div>
+	            </div>
+	            <button class="speaker-icon" onclick="speak('Mosto')">🔊</button>
+	        </div>
+	        <div class="drink-item">
+	            <div>
+	                <div class="drink-name">Agua con gas</div>
+	                <div class="drink-desc">氣泡水 (常附檸檬片)</div>
+	            </div>
+	            <button class="speaker-icon" onclick="speak('Agua con gas')">🔊</button>
+	        </div>
+	        <div class="drink-item">
+	            <div>
+	                <div class="drink-name">Zumo de Naranja</div>
+	                <div class="drink-desc">鮮榨柳橙汁</div>
+	            </div>
+	            <button class="speaker-icon" onclick="speak('Zumo de Naranja')">🔊</button>
+	        </div>
+	
+	        <p style="font-size: 0.8em; color: #2980b9; font-weight: bold; margin-top: 15px;">[ 酒精飲料 / 適合弟弟 ]</p>
+	        <div class="drink-item">
+	            <div>
+	                <div class="drink-name">Tinto de Verano</div>
+	                <div class="drink-desc">紅酒加汽水，清爽好入口 (低酒精)</div>
+	            </div>
+	            <button class="speaker-icon" onclick="speak('Tinto de Verano')">🔊</button>
+	        </div>
+	        <div class="drink-item">
+	            <div>
+	                <div class="drink-name">Clara de Limón</div>
+	                <div class="drink-desc">啤酒加檸檬汽水 (低酒精)</div>
+	            </div>
+	            <button class="speaker-icon" onclick="speak('Clara de Limón')">🔊</button>
+	        </div>
+	        <div class="drink-item">
+	            <div>
+	                <div class="drink-name">Sangría</div>
+	                <div class="drink-desc">經典水果調酒 (中酒精)</div>
+	            </div>
+	            <button class="speaker-icon" onclick="speak('Sangría')">🔊</button>
+	        </div>
+	    </div>
+	</div>
+	
     <button class="float-btn" id="money-btn" onclick="toggleMoney()">💰</button>
     <a href="googleapp://" class="float-btn" id="translate-btn">📸</a>
+	<button class="float-btn" id="drink-btn" onclick="toggleDrink()">🍷</button>
     <button class="float-btn" id="weather-toggle" onclick="toggleWeather()">🌤️</button>
 </div>
 
@@ -639,7 +711,26 @@ function openToday() {
             // 讓畫面自動捲動到該位置
             summary.scrollIntoView({ behavior: 'smooth' });
         }
-    });
+	// 控制視窗開關
+function toggleDrink() {
+    const m = document.getElementById('drink-modal');
+    m.style.display = (m.style.display === 'none' || m.style.display === '') ? 'block' : 'none';
+}
+
+	// 西班牙語發音功能
+function speak(text) {
+    const msg = new SpeechSynthesisUtterance();
+    msg.text = text;
+    msg.lang = 'es-ES'; // 設定為西班牙文
+    msg.rate = 0.9;     // 語速稍微放慢一點點
+    window.speechSynthesis.speak(msg);
+}
+
+	// 點擊外部關閉飲料視窗
+window.addEventListener('click', function(e) {
+    const m = document.getElementById('drink-modal');
+    if (e.target.id === 'drink-modal') m.style.display = 'none';
+});
 }
 // 執行自動展開
 openToday();
@@ -647,6 +738,7 @@ openToday();
 
 </body>
 </html>
+
 
 
 
