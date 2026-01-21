@@ -464,34 +464,44 @@
         w.style.display = (w.style.display === 'none' || w.style.display === '') ? 'block' : 'none';
     }
 
-    // 2. 強化版全域點擊關閉 (支援手機與電腦)
+    // 2. 強化版全域點擊關閉 (支援手機觸控與電腦點擊)
     function closeAllModals(e) {
         const mModal = document.getElementById('calc-modal');
         const dModal = document.getElementById('drink-modal-overlay');
         const wWidget = document.getElementById('weather-widget');
         const wBtn = document.getElementById('weather-toggle');
 
-        // 點擊記帳背景關閉 (手機上 e.target 判定較靈敏)
+        // 判定點擊的是否為「遮罩背景」本人 (而不是裡面的內容)
         if (e.target === mModal) {
             mModal.style.display = 'none';
         }
         
-        // 點擊飲料背景關閉
         if (e.target === dModal) {
             dModal.style.display = 'none';
         }
 
-        // 天氣小視窗自動關閉邏輯
+        // 天氣小視窗判定：點擊視窗外且不是點擊太陽按鈕才關閉
         if (wWidget && wWidget.style.display === 'block') {
-            // 如果點擊的地方不在天氣視窗內，且不是點擊那個太陽按鈕
             if (!wWidget.contains(e.target) && e.target !== wBtn) {
                 wWidget.style.display = 'none';
             }
         }
     }
 
-    // 同時監聽 click，手機瀏覽器通常能處理好 click 事件的冒泡
+    // 手機版關鍵：同時監聽點擊與觸控
     window.addEventListener('click', closeAllModals);
+    window.addEventListener('touchstart', function(e) {
+        // 僅針對背景遮罩進行觸控判定，避免干擾視窗內捲動
+        if (e.target.id === 'calc-modal' || e.target.id === 'drink-modal-overlay') {
+            closeAllModals(e);
+        }
+        // 天氣視窗的關閉判定
+        const wWidget = document.getElementById('weather-widget');
+        const wBtn = document.getElementById('weather-toggle');
+        if (wWidget && wWidget.style.display === 'block' && !wWidget.contains(e.target) && e.target !== wBtn) {
+            wWidget.style.display = 'none';
+        }
+    }, { passive: true });
 	
     // 3. 語音功能
     function speak(text) {
@@ -606,6 +616,7 @@
 		
 </body>
 </html>
+
 
 
 
