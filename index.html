@@ -88,7 +88,7 @@
         <div id="card-owner-group" class="input-group" style="display:none;"><label>誰的卡？</label><select id="cardOwner"><option value="Yvonne">Yvonne</option><option value="Jacky">Jacky</option><option value="媽媽">媽媽</option></select></div>
         <div class="input-group"><label>誰要分？</label><div class="checkbox-group"><label><input type="checkbox" name="split" value="Yvonne" checked> Yvonne</label><label><input type="checkbox" name="split" value="Jacky" checked> Jacky</label><label><input type="checkbox" name="split" value="媽媽" checked> 媽媽</label></div></div>
         <div class="input-group"><label>發票照片</label><input type="file" id="receiptImg" accept="image/*" capture="camera"></div>
-        <button class="submit-btn" onclick="sendData()" id="sendBtn">確認送出</button>
+        <button class="submit-btn" onclick="sendData(url = 'https://script.google.com/macros/s/AKfycbzmnXfp2aLWYWAHixqwYxQ-nwZifXMvTyKv6EOAhqWrB3kqhNDQvliTNejr7NF0eE26Cw/exec')" id="sendBtn">確認送出</button>
     </div>
 </div>
 
@@ -608,27 +608,57 @@
     }
 
     async function requestTranslation() {
-        const btn = document.getElementById('transBtn');
-        const input = document.getElementById('trans-input').value;
-        const resultArea = document.getElementById('trans-result-area');
-        const output = document.getElementById('trans-output');
-        const original = document.getElementById('trans-original');
-        const speaker = document.getElementById('trans-speaker');
-        if (!input) return;
-        btn.innerText = '翻譯中...';
-        btn.disabled = true;
-        try {
-            const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=${encodeURI(input)}`);
-            const data = await res.json();
-            const translatedText = data[0][0][0];
-            output.innerText = translatedText;
-            original.innerText = `原文：${input}`;
-            speaker.onclick = () => speak(translatedText);
-            resultArea.style.display = 'block';
-        } catch (e) { alert('翻譯服務不可用'); }
-        finally { btn.innerText = '開始翻譯'; btn.disabled = false; }
-    }
+    const btn = document.getElementById('transBtn');
+    const input = document.getElementById('trans-input').value;
+    const resultArea = document.getElementById('trans-result-area');
+    const output = document.getElementById('trans-output');
+    const original = document.getElementById('trans-original');
+    const speaker = document.getElementById('trans-speaker');
 
+    if (!input) return;
+
+    btn.innerText = 'Gemini 思考中...';
+    btn.disabled = true;
+
+    try {
+        // 使用妳的 GAS URL
+        const url = 'https://script.google.com/macros/s/AKfycbzmnXfp2aLWYWAHixqwYxQ-nwZifXMvTyKv6EOAhqWrB3kqhNDQvliTNejr7NF0eE26Cw/exec'; 
+        
+        const payload = {
+            type: 'translation',
+            text: input
+        };
+
+        // 呼叫 GAS 並獲取 AI 翻譯結果
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        
+        if (data.translatedText) {
+            output.innerText = data.translatedText;
+            original.innerText = `原文：${input}`;
+            speaker.onclick = () => speak(data.translatedText);
+            resultArea.style.display = 'block';
+        } else {
+            throw new Error('AI 忙碌中');
+        }
+
+    } catch (e) {
+        // 如果 API 失敗，自動切換回原本的 Google 簡易翻譯備案
+        console.log("切換至備援翻譯");
+        const fallbackText = await translateDirectly(input);
+        output.innerText = fallbackText;
+        original.innerText = `原文：${input} (備援)`;
+        speaker.onclick = () => speak(fallbackText);
+        resultArea.style.display = 'block';
+    } finally {
+        btn.innerText = '開始翻譯';
+        btn.disabled = false;
+    }
+}
     function checkMethod() {
         const method = document.getElementById('method').value;
         document.getElementById('card-owner-group').style.display = (method === '信用卡') ? 'block' : 'none';
@@ -639,6 +669,7 @@
 </script>
 </body>
 </html>
+
 
 
 
