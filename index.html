@@ -37,16 +37,10 @@
 
         #weather-widget { width: 180px; background: white; border: 2px solid #34495e; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px; display: none; font-size: 0.85em; }
         #calc-modal, #drink-modal-overlay, #translate-modal-overlay { 
-            cursor: pointer; -webkit-tap-highlight-color: transparent;
-            display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); 
+            display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); cursor: pointer;
         }
         .modal-content { background-color: #fefefe; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 20px; border-radius: 20px; width: 85%; max-width: 360px; max-height: 85vh; display: flex; flex-direction: column; overflow-y: auto; cursor: default; }
         .close-btn { align-self: flex-end; font-size: 30px; font-weight: bold; cursor: pointer; color: #999; }
-
-        .drink-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
-        .drink-name { font-weight: bold; color: #2c3e50; }
-        .drink-desc { font-size: 0.8em; color: #7f8c8d; }
-        .speaker-icon { background: #f1f1f1; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; }
 
         .input-group { margin-bottom: 12px; }
         .input-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9em; }
@@ -54,12 +48,15 @@
         .checkbox-group { display: flex; gap: 10px; flex-wrap: wrap; }
         .submit-btn { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 8px; font-weight: bold; margin-top: 10px; cursor: pointer; }
         
+        .drink-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
+        .speaker-icon { background: #f1f1f1; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; }
+        
         details { margin-bottom: 12px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         summary { padding: 15px; font-size: 1.1em; font-weight: bold; cursor: pointer; list-style: none; }
         .content { padding: 20px; }
         table { width: 100%; border-collapse: collapse; margin: 10px 0; background: white; }
         th, td { border: 1px solid #ddd; padding: 10px; }
-        .map-btn { display: inline-block; border: 1px solid #1565c0; background-color: #f0f7ff; color: #1565c0; text-decoration: none; border-radius: 6px; padding: 3px 8px; font-size: 0.9em; font-weight: bold; word-break: break-word; line-height: 1.4; vertical-align: middle; }
+        .map-btn { display: inline-block; border: 1px solid #1565c0; background-color: #f0f7ff; color: #1565c0; text-decoration: none; border-radius: 6px; padding: 3px 8px; font-size: 0.9em; font-weight: bold; }
         .note-box { background: #fffde7; border-left: 4px solid #fbc02d; padding: 10px; margin: 10px 0; font-size: 0.9em; }
     </style>
 </head>
@@ -70,7 +67,6 @@
         <h4 style="margin:0; color: #e67e22;">🌍 當地即時天氣</h4>
         <div id="weather-info">載入中...</div>
     </div>
-
     <button class="float-btn" id="money-btn" onclick="toggleMoney()">💰</button>
     <a href="googleapp://" class="float-btn" id="camera-btn">📸</a>
     <button class="float-btn" id="drink-btn" onclick="toggleDrink()">🍷</button>
@@ -88,7 +84,26 @@
         <div id="card-owner-group" class="input-group" style="display:none;"><label>誰的卡？</label><select id="cardOwner"><option value="Yvonne">Yvonne</option><option value="Jacky">Jacky</option><option value="媽媽">媽媽</option></select></div>
         <div class="input-group"><label>誰要分？</label><div class="checkbox-group"><label><input type="checkbox" name="split" value="Yvonne" checked> Yvonne</label><label><input type="checkbox" name="split" value="Jacky" checked> Jacky</label><label><input type="checkbox" name="split" value="媽媽" checked> 媽媽</label></div></div>
         <div class="input-group"><label>發票照片</label><input type="file" id="receiptImg" accept="image/*" capture="camera"></div>
-        <button class="submit-btn" onclick="sendData(url = 'https://script.google.com/macros/s/AKfycbzmnXfp2aLWYWAHixqwYxQ-nwZifXMvTyKv6EOAhqWrB3kqhNDQvliTNejr7NF0eE26Cw/exec')" id="sendBtn">確認送出</button>
+        <button class="submit-btn" onclick="sendData()" id="sendBtn">確認送出</button>
+    </div>
+</div>
+
+<div id="translate-modal-overlay" onclick="closeAllModals(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close-btn" onclick="toggleTranslate()">×</span>
+        <h3 style="margin:0 0 15px 0; text-align:center;">🗣️ Gemini 翻譯助理</h3>
+        <div class="input-group">
+            <label>輸入中文或英文</label>
+            <textarea id="trans-input" rows="3" placeholder="例如：我想寄放行李..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="requestTranslation()" id="transBtn">開始翻譯</button>
+        <div id="trans-result-area" style="display:none; margin-top:20px; padding:15px; background:#f0f7ff; border-radius:10px; border-left:5px solid #4285F4;">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+                <div id="trans-output" style="font-weight:bold; color:#1a73e8; font-size:1.1em; flex:1;"></div>
+                <button class="speaker-icon" id="trans-speaker">🔊</button>
+            </div>
+            <div id="trans-original" style="font-size:0.85em; color:#666; margin-top:5px;"></div>
+        </div>
     </div>
 </div>
 
@@ -108,26 +123,6 @@
             <div class="drink-item"><div><div class="drink-name">Clara de Limón</div><div class="drink-desc">啤酒檸檬水 (低酒精)</div></div><button class="speaker-icon" onclick="speak('Clara de Limón')">🔊</button></div>
             <div class="drink-item"><div><div class="drink-name">Sangría</div><div class="drink-desc">水果調酒 (中酒精)</div></div><button class="speaker-icon" onclick="speak('Sangría')">🔊</button></div>
         </div>
-    </div>
-</div>
-
-<div id="translate-modal-overlay" onclick="closeAllModals(event)">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="close-btn" onclick="toggleTranslate()">×</span>
-        <h3 style="margin:0 0 15px 0; text-align:center;">🗣️ Gemini 翻譯助理</h3>
-        <div class="input-group">
-            <label>輸入中文或英文</label>
-            <textarea id="trans-input" rows="3" placeholder="例如：我想寄放行李..."></textarea>
-        </div>
-        <button class="submit-btn" onclick="requestTranslation()" id="transBtn">開始翻譯</button>
-        <div id="trans-result-area" style="display:none; margin-top:20px; padding:15px; background:#f0f7ff; border-radius:10px; border-left:5px solid #4285F4;">
-            <div style="display:flex; justify-content:space-between; align-items:start;">
-                <div id="trans-output" style="font-weight:bold; color:#1a73e8; font-size:1.1em; flex:1;"></div>
-                <button class="speaker-icon" id="trans-speaker" onclick="">🔊</button>
-            </div>
-            <div id="trans-original" style="font-size:0.85em; color:#666; margin-top:5px;"></div>
-        </div>
-    </div>
 </div>
 	
 <h1>🇪🇸 2026 安達魯西亞</h1>
@@ -545,130 +540,86 @@
 </details>
 
 <script>
-    function toggleMoney() {
-        const m = document.getElementById('calc-modal');
-        m.style.display = (m.style.display === 'block') ? 'none' : 'block';
-    }
-    function toggleDrink() {
-        const d = document.getElementById('drink-modal-overlay');
-        d.style.display = (d.style.display === 'block') ? 'none' : 'block';
-    }
-    function toggleTranslate() {
-        const t = document.getElementById('translate-modal-overlay');
-        t.style.display = (t.style.display === 'block') ? 'none' : 'block';
-    }
-    function toggleWeather() {
-        const w = document.getElementById('weather-widget');
-        w.style.display = (w.style.display === 'none' || w.style.display === '') ? 'block' : 'none';
-    }
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbzmnXfp2aLWYWAHixqwYxQ-nwZifXMvTyKv6EOAhqWrB3kqhNDQvliTNejr7NF0eE26Cw/exec';
+
+    function toggleMoney() { document.getElementById('calc-modal').style.display = (document.getElementById('calc-modal').style.display === 'block') ? 'none' : 'block'; }
+    function toggleDrink() { document.getElementById('drink-modal-overlay').style.display = (document.getElementById('drink-modal-overlay').style.display === 'block') ? 'none' : 'block'; }
+    function toggleTranslate() { document.getElementById('translate-modal-overlay').style.display = (document.getElementById('translate-modal-overlay').style.display === 'block') ? 'none' : 'block'; }
+    function toggleWeather() { document.getElementById('weather-widget').style.display = (document.getElementById('weather-widget').style.display === 'block') ? 'none' : 'block'; }
 
     function closeAllModals(e) {
-        const mModal = document.getElementById('calc-modal');
-        const dModal = document.getElementById('drink-modal-overlay');
-        const tModal = document.getElementById('translate-modal-overlay');
-        const wWidget = document.getElementById('weather-widget');
-        const wBtn = document.getElementById('weather-toggle');
-
-        if (e.target === mModal) mModal.style.display = 'none';
-        if (e.target === dModal) dModal.style.display = 'none';
-        if (e.target === tModal) tModal.style.display = 'none';
-        if (wWidget && wWidget.style.display === 'block' && !wWidget.contains(e.target) && e.target !== wBtn) {
-            wWidget.style.display = 'none';
+        if (['calc-modal', 'drink-modal-overlay', 'translate-modal-overlay'].includes(e.target.id)) {
+            e.target.style.display = 'none';
         }
     }
 
-    window.addEventListener('click', closeAllModals);
-    window.addEventListener('touchstart', function(e) {
-        if (['calc-modal', 'drink-modal-overlay', 'translate-modal-overlay'].includes(e.target.id)) {
-            closeAllModals(e);
-        }
-    }, { passive: true });
-
     function speak(text) {
-        const msg = new SpeechSynthesisUtterance();
-        msg.text = text;
+        const msg = new SpeechSynthesisUtterance(text);
         msg.lang = 'es-ES';
         msg.rate = 0.85;
         window.speechSynthesis.speak(msg);
     }
 
-    async function updateWeather() {
-        const cities = [{ name: '格拉納達', lat: 37.1773, lon: -3.5986 }, { name: '龍達', lat: 36.7462, lon: -5.1612 }, { name: '塞維利亞', lat: 37.3891, lon: -5.9845 }];
-        const infoDiv = document.getElementById('weather-info');
-        if (!infoDiv) return;
-        infoDiv.innerHTML = '';
-        for (let city of cities) {
-            try {
-                const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&hourly=precipitation_probability`);
-                const data = await res.json();
-                const rain = data.hourly.precipitation_probability[new Date().getHours()];
-                infoDiv.innerHTML += `<div style="font-weight:bold; margin-top:5px; border-bottom:1px solid #eee;">${city.name}</div><div>🌡️ ${data.current_weather.temperature}°C | ☔ ${rain}%</div>`;
-            } catch (e) { infoDiv.innerHTML += `<div>載入失敗</div>`; }
-        }
-    }
-
     async function requestTranslation() {
-    const btn = document.getElementById('transBtn');
-    const input = document.getElementById('trans-input').value;
-    const resultArea = document.getElementById('trans-result-area');
-    const output = document.getElementById('trans-output');
-    const original = document.getElementById('trans-original');
-    const speaker = document.getElementById('trans-speaker');
-
-    if (!input) return;
-
-    btn.innerText = 'Gemini 思考中...';
-    btn.disabled = true;
-
-    try {
-        // 使用妳的 GAS URL
-        const url = 'https://script.google.com/macros/s/AKfycbzmnXfp2aLWYWAHixqwYxQ-nwZifXMvTyKv6EOAhqWrB3kqhNDQvliTNejr7NF0eE26Cw/exec'; 
-        
-        const payload = {
-            type: 'translation',
-            text: input
-        };
-
-        // 呼叫 GAS 並獲取 AI 翻譯結果
-        const response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-        
-        if (data.translatedText) {
-            output.innerText = data.translatedText;
-            original.innerText = `原文：${input}`;
-            speaker.onclick = () => speak(data.translatedText);
-            resultArea.style.display = 'block';
-        } else {
-            throw new Error('AI 忙碌中');
-        }
-
-    } catch (e) {
-        // 如果 API 失敗，自動切換回原本的 Google 簡易翻譯備案
-        console.log("切換至備援翻譯");
-        const fallbackText = await translateDirectly(input);
-        output.innerText = fallbackText;
-        original.innerText = `原文：${input} (備援)`;
-        speaker.onclick = () => speak(fallbackText);
-        resultArea.style.display = 'block';
-    } finally {
-        btn.innerText = '開始翻譯';
-        btn.disabled = false;
-    }
-}
-    function checkMethod() {
-        const method = document.getElementById('method').value;
-        document.getElementById('card-owner-group').style.display = (method === '信用卡') ? 'block' : 'none';
+        const btn = document.getElementById('transBtn');
+        const input = document.getElementById('trans-input').value;
+        if (!input) return;
+        btn.innerText = 'Gemini 思考中...';
+        btn.disabled = true;
+        try {
+            const response = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ type: 'translation', text: input }) });
+            const data = await response.json();
+            if (data.translatedText) {
+                document.getElementById('trans-output').innerText = data.translatedText;
+                document.getElementById('trans-original').innerText = `原文：${input}`;
+                document.getElementById('trans-speaker').onclick = () => speak(data.translatedText);
+                document.getElementById('trans-result-area').style.display = 'block';
+            }
+        } catch (e) { alert('翻譯失敗，請檢查網路或 GAS 設定'); }
+        finally { btn.innerText = '開始翻譯'; btn.disabled = false; }
     }
 
-    // 初始化
+    async function sendData() {
+        const btn = document.getElementById('sendBtn');
+        const amt = document.getElementById('amt').value;
+        const item = document.getElementById('item').value;
+        if (!amt || !item) { alert('請填寫金額與名目'); return; }
+        btn.innerText = '傳送中...';
+        btn.disabled = true;
+        try {
+            const splitPeople = Array.from(document.querySelectorAll('input[name="split"]:checked')).map(el => el.value).join(', ');
+            const fileInput = document.getElementById('receiptImg');
+            let base64Image = "";
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                base64Image = await new Promise(r => { const reader = new FileReader(); reader.onload = () => r(reader.result.split(',')[1]); reader.readAsDataURL(file); });
+            }
+            await fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ 
+                amount: amt, item: item, method: document.getElementById('method').value, 
+                cardOwner: document.getElementById('cardOwner').value, splitPeople: splitPeople, image: base64Image 
+            })});
+            alert('記帳成功！');
+            toggleMoney();
+        } catch (e) { alert('記帳失敗'); }
+        finally { btn.innerText = '確認送出'; btn.disabled = false; }
+    }
+
+    function checkMethod() { document.getElementById('card-owner-group').style.display = (document.getElementById('method').value === '信用卡') ? 'block' : 'none'; }
+    
+    // 初始化天氣 (簡化版)
+    async function updateWeather() {
+        const infoDiv = document.getElementById('weather-info');
+        try {
+            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=37.17&longitude=-3.59&current_weather=true`);
+            const data = await res.json();
+            infoDiv.innerHTML = `格拉納達: ${data.current_weather.temperature}°C`;
+        } catch (e) { infoDiv.innerHTML = '天氣載入失敗'; }
+    }
     updateWeather();
 </script>
 </body>
 </html>
+
 
 
 
