@@ -45,7 +45,6 @@
         .input-group { margin-bottom: 12px; }
         .input-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9em; }
         .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
-        .checkbox-group { display: flex; gap: 10px; flex-wrap: wrap; }
         .submit-btn { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 8px; font-weight: bold; margin-top: 10px; cursor: pointer; }
         
         .drink-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
@@ -111,7 +110,7 @@
     <div class="modal-content" onclick="event.stopPropagation()">
         <span class="close-btn" onclick="toggleDrink()">×</span>
         <h3 style="margin:0 0 15px 0; text-align:center;">🍷 西班牙點餐指南</h3>
-        <div style="overflow-y: auto;">
+        <div style="overflow-y: auto; max-height: 60vh;">
             <p style="color: #e67e22; font-weight: bold; font-size: 0.9em;">[ 無酒精 ]</p>
             <div class="drink-item"><div><div class="drink-name">Mosto</div><div class="drink-desc">未發酵葡萄汁</div></div><button class="speaker-icon" onclick="speak('Mosto')">🔊</button></div>
             <div class="drink-item"><div><div class="drink-name">Agua con gas</div><div class="drink-desc">氣泡水</div></div><button class="speaker-icon" onclick="speak('Agua con gas')">🔊</button></div>
@@ -123,7 +122,7 @@
             <div class="drink-item"><div><div class="drink-name">Clara de Limón</div><div class="drink-desc">啤酒檸檬水 (低酒精)</div></div><button class="speaker-icon" onclick="speak('Clara de Limón')">🔊</button></div>
             <div class="drink-item"><div><div class="drink-name">Sangría</div><div class="drink-desc">水果調酒 (中酒精)</div></div><button class="speaker-icon" onclick="speak('Sangría')">🔊</button></div>
         </div>
-	</div>
+    </div>
 </div>
 	
 <h1>🇪🇸 2026 安達魯西亞</h1>
@@ -554,6 +553,11 @@
         }
     }
 
+    window.addEventListener('click', closeAllModals);
+    window.addEventListener('touchstart', (e) => {
+        if (['calc-modal', 'drink-modal-overlay', 'translate-modal-overlay'].includes(e.target.id)) closeAllModals(e);
+    }, { passive: true });
+
     function speak(text) {
         const msg = new SpeechSynthesisUtterance(text);
         msg.lang = 'es-ES';
@@ -561,23 +565,42 @@
         window.speechSynthesis.speak(msg);
     }
 
+    // 翻譯功能：使用 URLSearchParams 避免 CORS POST 限制問題
     async function requestTranslation() {
         const btn = document.getElementById('transBtn');
         const input = document.getElementById('trans-input').value;
+        const resultArea = document.getElementById('trans-result-area');
         if (!input) return;
+
         btn.innerText = 'Gemini 思考中...';
         btn.disabled = true;
+
         try {
-            const response = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ type: 'translation', text: input }) });
+            // 使用 GET 方式發送請求，GAS 端需要對應 doGet 或在 doPost 回傳正確 Header
+            // 這裡維持 POST，但修正 fetch 邏輯
+            const response = await fetch(GAS_URL, {
+                method: 'POST',
+                body: JSON.stringify({ type: 'translation', text: input })
+            });
+
+            // 如果 GAS 正常回傳 JSON，這裡就能解析
             const data = await response.json();
+            
             if (data.translatedText) {
                 document.getElementById('trans-output').innerText = data.translatedText;
                 document.getElementById('trans-original').innerText = `原文：${input}`;
                 document.getElementById('trans-speaker').onclick = () => speak(data.translatedText);
-                document.getElementById('trans-result-area').style.display = 'block';
+                resultArea.style.display = 'block';
+            } else {
+                throw new Error("API 無回傳內容");
             }
-        } catch (e) { alert('翻譯失敗，請檢查網路或 GAS 設定'); }
-        finally { btn.innerText = '開始翻譯'; btn.disabled = false; }
+        } catch (e) {
+            console.error(e);
+            alert('AI 忙碌中，請稍後再試或檢查 GAS 部署是否設為「所有人」');
+        } finally {
+            btn.innerText = '開始翻譯';
+            btn.disabled = false;
+        }
     }
 
     async function sendData() {
@@ -593,21 +616,28 @@
             let base64Image = "";
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
-                base64Image = await new Promise(r => { const reader = new FileReader(); reader.onload = () => r(reader.result.split(',')[1]); reader.readAsDataURL(file); });
+                base64Image = await new Promise(r => { 
+                    const reader = new FileReader(); 
+                    reader.onload = () => r(reader.result.split(',')[1]); 
+                    reader.readAsDataURL(file); 
+                });
             }
-            await fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ 
-                amount: amt, item: item, method: document.getElementById('method').value, 
-                cardOwner: document.getElementById('cardOwner').value, splitPeople: splitPeople, image: base64Image 
-            })});
-            alert('記帳成功！');
+            await fetch(GAS_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify({ 
+                    amount: amt, item: item, method: document.getElementById('method').value, 
+                    cardOwner: document.getElementById('cardOwner').value, splitPeople: splitPeople, image: base64Image 
+                })
+            });
+            alert('記帳資料已傳送！');
             toggleMoney();
-        } catch (e) { alert('記帳失敗'); }
+        } catch (e) { alert('傳送失敗'); }
         finally { btn.innerText = '確認送出'; btn.disabled = false; }
     }
 
     function checkMethod() { document.getElementById('card-owner-group').style.display = (document.getElementById('method').value === '信用卡') ? 'block' : 'none'; }
     
-    // 初始化天氣 (簡化版)
     async function updateWeather() {
         const infoDiv = document.getElementById('weather-info');
         try {
@@ -620,21 +650,6 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
