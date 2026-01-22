@@ -61,6 +61,44 @@
         th, td { border: 1px solid #ddd; padding: 10px; }
         .map-btn { display: inline-block; border: 1px solid #1565c0; background-color: #f0f7ff; color: #1565c0; text-decoration: none; border-radius: 6px; padding: 3px 8px; font-size: 0.9em; font-weight: bold; word-break: break-word; line-height: 1.4; vertical-align: middle; }
         .note-box { background: #fffde7; border-left: 4px solid #fbc02d; padding: 10px; margin: 10px 0; font-size: 0.9em; }
+
+		/* 行程圖組容器 */
+		.itinerary-grid {
+		    display: grid;
+		    grid-template-columns: repeat(2, 1fr); /* 兩欄排列 */
+		    gap: 12px;
+		    margin-top: 15px;
+		}
+		
+		/* 儀表板風按鈕樣式 */
+		.itinerary-btn {
+		    display: block;
+		    background: #f0f7ff;
+		    border: 1px solid #c2e0ff;
+		    border-radius: 8px;
+		    padding: 12px 8px;
+		    text-align: center;
+		    text-decoration: none;
+		    color: #1565c0;
+		    font-size: 0.9em;
+		    font-weight: bold;
+		    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+		    transition: all 0.2s;
+		}
+		
+		.itinerary-btn:active {
+		    background: #e1efff;
+		    transform: translateY(1px);
+		}
+		
+		/* 調整地圖外觀 */
+		.itinerary-map {
+		    width: 100%;
+		    border-radius: 12px;
+		    border: 1px solid #ddd;
+		    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+		}
+		
     </style>
 </head>
 <body>
@@ -550,29 +588,29 @@
 		
 <details class="area-ronda">
     <summary>2/20 (五) 龍達：新橋與鬥牛場</summary>
-    <div class="content">
-        <div class="note-box">🚶 全日步行：龍達景點集中，穿著舒適的鞋子即可漫步全城。</div>
+    <div class="note-box">🚶 全日步行：龍達景點集中，穿著舒適的鞋子即可漫步全城。</div>
+    <div class="content" style="background: #f9fbf9;"> <div style="background: white; padding: 15px; border-radius: 15px; border: 1px solid #eee;">
+            <h3 style="text-align: center; color: #555; margin-top: 0;">上午</h3>
+            
+            <a href="images/map04.png" target="_blank">
+                <img src="images/map04.png" alt="上午地圖" class="itinerary-map">
+            </a>
 
-		<h3>📍 行程概覽</h3>
-			<table>
-				<tr>
-					<th style="width: 20%;">上午</th>
-					<td>
-					<ul style="margin: 5px 0 0 15px; padding: 0; line-height: 2.2;">
-						<a class="map-btn" href="https://maps.google.com/?cid=15929426971499203720" target="_blank">Alameda del Tajo (塔霍林蔭步道)</a><br>
-						<a class="map-btn" href="https://maps.google.com/?cid=14309849900892510661" target="_blank">Balcón del Coño (觀景台)</a><br>
-						<a class="map-btn" href="https://maps.google.com/?cid=3518520921564562878" target="_blank">Plaza de Toros (龍達鬥牛場)</a><br>
-						<a class="map-btn" href="https://maps.google.com/?cid=7874329191308135110" target="_blank">Parroquia de Nuestra Señora del Socorro (索科羅教堂)</a>
-					</ul>
-					</td>
-				</tr>
-			</table>
-	        
-		<a href="images/map04.png" target="_blank" style="display: block; text-align: center; text-decoration: none;">
-		    <img src="images/map04.png" 
-		         alt="行程地圖" 
-		         style="width: 100%; max-width: 600px; border-radius: 8px; border: 1px solid #ddd; margin: 15px auto; cursor: zoom-in; display: inline-block;">
-		</a>
+            <div class="itinerary-grid">
+                <a href="https://maps.google.com/?cid=15929426971499203720" target="_blank" class="itinerary-btn">
+                    Alameda del Tajo<br><span style="font-weight:normal; font-size:0.8em;">(塔霍林蔭步道)</span>
+                </a>
+                <a href="https://maps.google.com/?cid=14309849900892510661" target="_blank" class="itinerary-btn">
+                    Balcón del Coño<br><span style="font-weight:normal; font-size:0.8em;">(觀景台)</span>
+                </a>
+                <a href="https://maps.google.com/?cid=3518520921564562878" target="_blank" class="itinerary-btn">
+                    Plaza de Toros<br><span style="font-weight:normal; font-size:0.8em;">(龍達鬥牛場)</span>
+                </a>
+                <a href="https://maps.google.com/?cid=7874329191308135110" target="_blank" class="itinerary-btn">
+                    Nuestra Señora<br><span style="font-weight:normal; font-size:0.8em;">(索科羅教堂)</span>
+                </a>
+            </div>
+        </div>
 	
 			<table>
 				<tr>
@@ -599,9 +637,20 @@
                 <td>
 				<strong>候選方案 </strong><small> 住宿附近</small>
 					<hr style="border: 0; border-top: 1px solid #eee; margin: 8px 0 12px 0;">
-						1. <a class="map-btn" href="https://maps.app.goo.gl/hJHDbMc8EzkE5Uiw9" target="_blank">White and Black</a><br>
-						2. <a class="map-btn" href="https://maps.app.goo.gl/iC2XZAkSsSnHvW7z9" target="_blank">Churrería La Rueda</a><br>
-						3. <a class="map-btn" href="https://maps.app.goo.gl/n4Y6kL9BccBpMxX29" target="_blank">La Molienda</a>
+                    1. <a class="map-btn" href="https://maps.app.goo.gl/hJHDbMc8EzkE5Uiw9" target="_blank">White and Black</a>
+                    <small> 高CP值咖啡廳</small><br>
+                    • 蕃茄泥橄欖油吐司 (Tostada con Tomate)<br>
+                    • 混合口味三明治 (Mixed Sandwich / Bikini)<br><br>
+
+                    2. <a class="map-btn" href="https://maps.app.goo.gl/iC2XZAkSsSnHvW7z9" target="_blank">Churrería La Rueda</a>
+                    <small> 吉拿棒老店</small><br>
+                    • 現炸吉拿棒 (Churros)<br>
+                    • 濃郁熱巧克力 (Chocolate a la taza)<br><br>
+
+                    3. <a class="map-btn" href="https://maps.app.goo.gl/n4Y6kL9BccBpMxX29" target="_blank">La Molienda</a>
+                    <small> 文青風早午餐</small><br>
+                    • 酪梨波奇蛋吐司 (Avocado & Poached Egg Toast)<br>
+                    • 手工優格與自家烘焙咖啡<br><br>
                 </td>
             </tr>
 			<tr>
@@ -837,6 +886,7 @@
 </script>
 </body>
 </html>
+
 
 
 
