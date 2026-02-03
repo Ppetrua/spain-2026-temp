@@ -159,6 +159,20 @@
             <label>輸入中文或英文</label>
             <textarea id="trans-input" rows="3" placeholder="例如：我想寄放行李..."></textarea>
         </div>
+        <button id="clearBtn" onclick="clearInput()" style="
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            display: none; /* 預設隱藏，有字才出現 */
+            background: #eee;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            color: #666;
+            font-weight: bold;
+        ">✕</button>
         <button class="submit-btn" onclick="requestTranslation()" id="transBtn">開始翻譯</button>
         <div id="trans-result-area" style="display:none; margin-top:20px; padding:15px; background:#f0f7ff; border-radius:10px; border-left:5px solid #4285F4;">
             <div style="display:flex; justify-content:space-between; align-items:start;">
@@ -1462,6 +1476,29 @@
                 const rain = data.hourly.precipitation_probability[new Date().getHours()];
                 infoDiv.innerHTML += `<div style="font-weight:bold; margin-top:5px; border-bottom:1px solid #eee;">${city.name}</div><div>🌡️ ${data.current_weather.temperature}°C | ☔ ${rain}%</div>`;
             } catch (e) { infoDiv.innerHTML += `<div>載入失敗</div>`; }
+        }
+    }
+
+    // 執行清除動作
+    function clearInput() {
+        const input = document.getElementById('sourceText');
+        const result = document.getElementById('translationResult'); // 假設妳的結果欄 ID 是這個
+        
+        input.value = '';        // 清空輸入欄
+        if(result) result.innerHTML = ''; // 同步清空翻譯結果欄 (選用)
+        
+        toggleClearBtn();        // 重新判斷按鈕是否隱藏
+        input.focus();           // 自動聚焦，方便直接重新輸入
+    }
+    
+    // 判斷按鈕要顯示還是隱藏
+    function toggleClearBtn() {
+        const input = document.getElementById('sourceText');
+        const btn = document.getElementById('clearBtn');
+        if (input.value.length > 0) {
+            btn.style.display = 'block';
+        } else {
+            btn.style.display = 'none';
         }
     }
 
