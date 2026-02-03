@@ -154,26 +154,32 @@
 <div id="translate-modal-overlay" onclick="closeAllModals(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <span class="close-btn" onclick="toggleTranslate()">×</span>
-        <h3 style="margin:0 0 15px 0; text-align:center;">🗣️ Gemini 翻譯助理</h3>
-        <div class="input-group">
+        <h3 style="text-align:center; margin:0 0 15px 0;">🗣️ Gemini 翻譯助理</h3>
+        
+        <div class="input-group" style="position: relative;">
             <label>輸入中文或英文</label>
-            <textarea id="trans-input" rows="3" placeholder="例如：我想寄放行李..."></textarea>
+            <textarea id="trans-input" rows="3" placeholder="例如：我想寄放行李..." oninput="toggleClearBtn()"></textarea>
+            
+            <button id="clearBtn" onclick="clearInput()" style="
+                position: absolute;
+                right: 10px;
+                top: 35px; /* 調整高度以對齊 textarea */
+                display: none;
+                background: #ddd;
+                border: none;
+                border-radius: 50%;
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+                color: #666;
+                font-size: 14px;
+                font-weight: bold;
+                z-index: 10;
+            ">✕</button>
         </div>
-        <button id="clearBtn" onclick="clearInput()" style="
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            display: none; /* 預設隱藏，有字才出現 */
-            background: #eee;
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            cursor: pointer;
-            color: #666;
-            font-weight: bold;
-        ">✕</button>
+
         <button class="submit-btn" onclick="requestTranslation()" id="transBtn">開始翻譯</button>
+        
         <div id="trans-result-area" style="display:none; margin-top:20px; padding:15px; background:#f0f7ff; border-radius:10px; border-left:5px solid #4285F4;">
             <div style="display:flex; justify-content:space-between; align-items:start;">
                 <div id="trans-output" style="font-weight:bold; color:#1a73e8; font-size:1.1em; flex:1;"></div>
@@ -183,6 +189,7 @@
         </div>
     </div>
 </div>
+
 	
 <h1>🇪🇸 2026 安達魯西亞</h1>
 
@@ -1479,23 +1486,23 @@
         }
     }
 
-    // 執行清除動作
+    // 修正後的執行清除動作
     function clearInput() {
-        const input = document.getElementById('sourceText');
-        const result = document.getElementById('translationResult'); // 假設妳的結果欄 ID 是這個
+        const input = document.getElementById('trans-input'); // 確保 ID 正確
+        const resultArea = document.getElementById('trans-result-area');
         
-        input.value = '';        // 清空輸入欄
-        if(result) result.innerHTML = ''; // 同步清空翻譯結果欄 (選用)
+        input.value = '';        
+        if(resultArea) resultArea.style.display = 'none'; // 清除時順便隱藏結果
         
-        toggleClearBtn();        // 重新判斷按鈕是否隱藏
-        input.focus();           // 自動聚焦，方便直接重新輸入
+        toggleClearBtn();        
+        input.focus();           
     }
     
-    // 判斷按鈕要顯示還是隱藏
+    // 修正後的顯示/隱藏邏輯
     function toggleClearBtn() {
-        const input = document.getElementById('sourceText');
+        const input = document.getElementById('trans-input'); // 確保 ID 正確
         const btn = document.getElementById('clearBtn');
-        if (input.value.length > 0) {
+        if (input && input.value.length > 0) {
             btn.style.display = 'block';
         } else {
             btn.style.display = 'none';
