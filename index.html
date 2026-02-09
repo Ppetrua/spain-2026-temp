@@ -151,6 +151,13 @@
     </div>
 </div>
 
+<div id="pdf-modal-overlay" onclick="closePdfModal(event)" style="display: none; position: fixed; z-index: 20000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9);">
+    <div class="modal-content" style="width: 95%; height: 90vh; max-width: none; padding: 10px;">
+        <span class="close-btn" onclick="closePdfModal(null)">×</span>
+        <iframe id="pdf-viewer" src="" style="width: 100%; height: 100%; border: none; border-radius: 10px;"></iframe>
+    </div>
+</div>
+	
 <div id="translate-modal-overlay" onclick="closeAllModals(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <span class="close-btn" onclick="toggleTranslate()">×</span>
@@ -237,19 +244,19 @@
         </table>
 
 		<div style="display: flex; justify-content: center; gap: 10px; margin: 20px 0; text-align: center;">
-		    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/wymz7xtxytzjcoxeslr0q/renfe-ticket_Madrid_Granada_Yvonne.pdf?rlkey=9mfsl8k4q6oa6s9m5fyr4or83&raw=1" 
+		    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/wymz7xtxytzjcoxeslr0q/renfe-ticket_Madrid_Granada_Yvonne.pdf?rlkey=9mfsl8k4q6oa6s9m5fyr4or83&raw=1')" 
 		       target="_blank" 
 		       style="flex: 1; max-width: 100px; background: #3498db; color: white; padding: 15px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #2980b9;">
 		        <span style="font-size: 1.2em;">🎟️</span><br>Yvonne
 		    </a>
 		
-		    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/j2n9ptpdxojgbsishpok6/renfe-ticket_Madrid_Granada_Jacky.pdf?rlkey=uzt3kcchg1mmp1qryqpgdedyi&raw=1" 
+		    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/j2n9ptpdxojgbsishpok6/renfe-ticket_Madrid_Granada_Jacky.pdf?rlkey=uzt3kcchg1mmp1qryqpgdedyi&raw=1')" 
 		       target="_blank" 
 		       style="flex: 1; max-width: 100px; background: #2ecc71; color: white; padding: 15px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #27ae60;">
 		        <span style="font-size: 1.2em;">🎟️</span><br>Jacky
 		    </a>
 		
-		    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/9jdsxdeo0xiw29rngnwbg/renfe-ticket_Madrid_Granada_Mom.pdf?rlkey=sejqeeom5kdw3pfmg6asc2o9m&raw=1" 
+		    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/9jdsxdeo0xiw29rngnwbg/renfe-ticket_Madrid_Granada_Mom.pdf?rlkey=sejqeeom5kdw3pfmg6asc2o9m&raw=1')" 
 		       target="_blank" 
 		       style="flex: 1; max-width: 100px; background: #e67e22; color: white; padding: 15px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #d35400;">
 		        <span style="font-size: 1.2em;">🎟️</span><br>媽媽
@@ -276,19 +283,19 @@
          style="width: 100%; max-width: 600px; border-radius: 8px; border: 1px solid #ddd; margin: 15px auto; cursor: zoom-in; display: inline-block;">
 </a>
 <div style="display: flex; justify-content: center; gap: 10px; margin: 20px 0; text-align: center;">
-    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/yvyujdm854klcdqteztg0/Patronato-de-la-Alhambra_H0LGBBG_Yvonne.pdf?rlkey=mybsui7puikbnss3dyp1wc5hx&raw=1" 
+    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/yvyujdm854klcdqteztg0/Patronato-de-la-Alhambra_H0LGBBG_Yvonne.pdf?rlkey=mybsui7puikbnss3dyp1wc5hx&raw=1')" 
        target="_blank" 
        style="flex: 1; max-width: 100px; background: #3498db; color: white; padding: 15px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #2980b9;">
         <span style="font-size: 1.2em;">🎟️</span><br>Yvonne
     </a>
 
-    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/u7t6nxz47ztki95xkr5iq/Patronato-de-la-Alhambra_H0LGBBG_Jacky.pdf?rlkey=qfj7i5i0g5tbemsmzzc14qd8i&raw=1" 
+    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/u7t6nxz47ztki95xkr5iq/Patronato-de-la-Alhambra_H0LGBBG_Jacky.pdf?rlkey=qfj7i5i0g5tbemsmzzc14qd8i&raw=1')" 
        target="_blank" 
        style="flex: 1; max-width: 100px; background: #2ecc71; color: white; padding: 15px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #27ae60;">
         <span style="font-size: 1.2em;">🎟️</span><br>Jacky
     </a>
 
-    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/egsiyb75c9buajfzccb9u/Patronato-de-la-Alhambra_H0LGBBG_Mom.pdf?rlkey=ju7k6iu04ihmd6l5rcq2bcd9r&raw=1" 
+    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/egsiyb75c9buajfzccb9u/Patronato-de-la-Alhambra_H0LGBBG_Mom.pdf?rlkey=ju7k6iu04ihmd6l5rcq2bcd9r&raw=1')" 
        target="_blank" 
        style="flex: 1; max-width: 100px; background: #e67e22; color: white; padding: 15px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #d35400;">
         <span style="font-size: 1.2em;">🎟️</span><br>媽媽
@@ -576,16 +583,16 @@
 
         <h4 style="margin-bottom:10px;">🎟️ 車票段 1 (Granada - Antequera)</h4>
         <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; text-align: center;">
-            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/6x25us4ydgmglkhfb0ifs/renfe-ticket_Granada_Antequera_Yvonne.pdf?rlkey=2unhrh6xg0y1315ntbr80gus7&raw=1" target="_blank" style="flex: 1; max-width: 100px; background: #3498db; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #2980b9;">Yvonne</a>
-            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/bwl7kkxkgokpfzjrlwz8y/renfe-ticket_Granada_Antequera_Jacky.pdf?rlkey=e17jy3g603e7wdheouzacs31q&raw=1" target="_blank" style="flex: 1; max-width: 100px; background: #2ecc71; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #27ae60;">Jacky</a>
-            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/y4c5tfq2rbcoroppdxj15/renfe-ticket_Granada_Antequera_Mom.pdf?rlkey=cs74obwaafcga7a6j1uo3jshw&raw=1" target="_blank" style="flex: 1; max-width: 100px; background: #e67e22; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #d35400;">媽媽</a>
+            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/6x25us4ydgmglkhfb0ifs/renfe-ticket_Granada_Antequera_Yvonne.pdf?rlkey=2unhrh6xg0y1315ntbr80gus7&raw=1')" target="_blank" style="flex: 1; max-width: 100px; background: #3498db; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #2980b9;">Yvonne</a>
+            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/bwl7kkxkgokpfzjrlwz8y/renfe-ticket_Granada_Antequera_Jacky.pdf?rlkey=e17jy3g603e7wdheouzacs31q&raw=1')" target="_blank" style="flex: 1; max-width: 100px; background: #2ecc71; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #27ae60;">Jacky</a>
+            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/y4c5tfq2rbcoroppdxj15/renfe-ticket_Granada_Antequera_Mom.pdf?rlkey=cs74obwaafcga7a6j1uo3jshw&raw=1')" target="_blank" style="flex: 1; max-width: 100px; background: #e67e22; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #d35400;">媽媽</a>
         </div>
 
         <h4 style="margin-bottom:10px;">🎟️ 車票段 2 (Antequera - Ronda)</h4>
         <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; text-align: center;">
-            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/1tzlcpdrym3bwwewbdisv/renfe-ticket_Antequera_Ronda_Yvonne.pdf?rlkey=3zlo97tmlyldas2il5zuvhu6z&raw=1" target="_blank" style="flex: 1; max-width: 100px; background: #3498db; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #2980b9;">Yvonne</a>
-            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/i3gvyqhjbp82ssgtxziha/renfe-ticket_Antequera_Ronda_Jacky.pdf?rlkey=d7886wtj2pmer8m6y95vbw8hx&raw=1" target="_blank" style="flex: 1; max-width: 100px; background: #2ecc71; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #27ae60;">Jacky</a>
-            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/r41u37s85bbcjpcgbn9yx/renfe-ticket_Antequera_Ronda_Mom.pdf?rlkey=9rgu7ld14n6cwn8wdg5im6ay9&raw=1" target="_blank" style="flex: 1; max-width: 100px; background: #e67e22; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #d35400;">媽媽</a>
+            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/1tzlcpdrym3bwwewbdisv/renfe-ticket_Antequera_Ronda_Yvonne.pdf?rlkey=3zlo97tmlyldas2il5zuvhu6z&raw=1')" target="_blank" style="flex: 1; max-width: 100px; background: #3498db; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #2980b9;">Yvonne</a>
+            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/i3gvyqhjbp82ssgtxziha/renfe-ticket_Antequera_Ronda_Jacky.pdf?rlkey=d7886wtj2pmer8m6y95vbw8hx&raw=1')" target="_blank" style="flex: 1; max-width: 100px; background: #2ecc71; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #27ae60;">Jacky</a>
+            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/r41u37s85bbcjpcgbn9yx/renfe-ticket_Antequera_Ronda_Mom.pdf?rlkey=9rgu7ld14n6cwn8wdg5im6ay9&raw=1')" target="_blank" style="flex: 1; max-width: 100px; background: #e67e22; color: white; padding: 10px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #d35400;">媽媽</a>
         </div>
 
         <strong>🏠 住宿：Apartamento San José by CasaTuristica</strong><br>
@@ -1049,9 +1056,9 @@
 	    <div style="text-align: center; margin-bottom: 20px;">
 	        <b style="color: #2c3e50;">去程 (Renfe) 08:32 - 09:13</b>
 	        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/xa9drjgujmxrve3gro4uz/Renfe-ticket_Sevilla_Cordoba_Yvonne.pdf?rlkey=yfl6por3jas4fjx89op7xpapb&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #2980b9;">🎟️<br>Yvonne</a>
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/l79do32jg35nnllwyuypw/Renfe-ticket_Sevilla_Cordoba_Jacky.pdf?rlkey=6yyuahm7ubi35642s61aiv1nt&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #27ae60;">🎟️<br>Jacky</a>
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/a8e6fm3j0770vvx77z3zm/Renfe-ticket_Sevilla_Cordoba_Mom.pdf?rlkey=81q6j6m6ivhjdy4n6pd55l2ip&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #d35400;">🎟️<br>媽媽</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/xa9drjgujmxrve3gro4uz/Renfe-ticket_Sevilla_Cordoba_Yvonne.pdf?rlkey=yfl6por3jas4fjx89op7xpapb&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #2980b9;">🎟️<br>Yvonne</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/l79do32jg35nnllwyuypw/Renfe-ticket_Sevilla_Cordoba_Jacky.pdf?rlkey=6yyuahm7ubi35642s61aiv1nt&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #27ae60;">🎟️<br>Jacky</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/a8e6fm3j0770vvx77z3zm/Renfe-ticket_Sevilla_Cordoba_Mom.pdf?rlkey=81q6j6m6ivhjdy4n6pd55l2ip&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #d35400;">🎟️<br>媽媽</a>
 	        </div>
 	    </div>
 	
@@ -1060,9 +1067,9 @@
 	    <div style="text-align: center;">
 	        <b style="color: #2c3e50;">回程 (Iryo) 18:45 - 19:39</b>
 	        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/3a04vlebynw7ky8skq6j6/iryo-ticket_Cordoba_Sevilla_Yvonne.pdf?rlkey=vxqi4czy25uaynglzemufyt5n&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #2980b9;">🎟️<br>Yvonne</a>
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/gj0w5woopyd773gip7gae/iryo-ticket_Cordoba_Sevilla_Jacky.pdf?rlkey=cnvteqdrr8529baobq3860g35&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #27ae60;">🎟️<br>Jacky</a>
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/dldlboozkss037mfsmcqt/iryo-ticket_Cordoba_Sevilla_Mom.pdf?rlkey=v94isimbbqjnzsl6t0q9zo96x&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #d35400;">🎟️<br>媽媽</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/3a04vlebynw7ky8skq6j6/iryo-ticket_Cordoba_Sevilla_Yvonne.pdf?rlkey=vxqi4czy25uaynglzemufyt5n&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #2980b9;">🎟️<br>Yvonne</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/gj0w5woopyd773gip7gae/iryo-ticket_Cordoba_Sevilla_Jacky.pdf?rlkey=cnvteqdrr8529baobq3860g35&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #27ae60;">🎟️<br>Jacky</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/dldlboozkss037mfsmcqt/iryo-ticket_Cordoba_Sevilla_Mom.pdf?rlkey=v94isimbbqjnzsl6t0q9zo96x&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #d35400;">🎟️<br>媽媽</a>
 	        </div>
 	    </div>
 	</div>
@@ -1085,9 +1092,9 @@
 	    <div style="text-align: center; margin-bottom: 25px;">
 	        <span style="font-size: 0.85em; font-weight: bold; color: #666;">門票</span>
 	        <div style="display: flex; justify-content: center; gap: 8px; margin-top: 5px;">
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/qdmr9j64ru2enewm07khe/Tickets_MezquitaCatedralDeCordoba_Yvonne.pdf?rlkey=qfgmwzlmy942fabe4ctffqgwc&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">Yvonne</a>
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/axdani4bxoxh19l2kg5od/Tickets_MezquitaCatedralDeCordoba_Jacky.pdf?rlkey=ciso8egsj6imywgzc031sh6i5&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">Jacky</a>
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/ft7xq38laeq0rc541oahf/Tickets_MezquitaCatedralDeCordoba_Mom.pdf?rlkey=z6iygx3chgqpjcvj4phydwsej&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">媽媽</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/qdmr9j64ru2enewm07khe/Tickets_MezquitaCatedralDeCordoba_Yvonne.pdf?rlkey=qfgmwzlmy942fabe4ctffqgwc&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">Yvonne</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/axdani4bxoxh19l2kg5od/Tickets_MezquitaCatedralDeCordoba_Jacky.pdf?rlkey=ciso8egsj6imywgzc031sh6i5&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">Jacky</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/ft7xq38laeq0rc541oahf/Tickets_MezquitaCatedralDeCordoba_Mom.pdf?rlkey=z6iygx3chgqpjcvj4phydwsej&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">媽媽</a>
 	        </div>
 	    </div>
 	
@@ -1102,9 +1109,9 @@
 	    <div style="text-align: center;">
 	        <span style="font-size: 0.85em; font-weight: bold; color: #666;">門票</span>
 	        <div style="display: flex; justify-content: center; gap: 8px; margin-top: 5px;">
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/eu3k9vhgr092levtuo94t/Tickets_MezquitaCatedralDeCordoba_BellTower_Yvonne.pdf?rlkey=38rmmmppkj8haf4wzv9bkmeom&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">Yvonne</a>
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/nwu2nqt6xc4s43lazn5jf/Tickets_MezquitaCatedralDeCordoba_BellTower_Jacky.pdf?rlkey=e6xwvkkm1gtvo32b9zudsthyj&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">Jacky</a>
-	            <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/eqc6samj5udak2j8sxhd7/Tickets_MezquitaCatedralDeCordoba_BellTower_Mom.pdf?rlkey=wmd29ugfvfw5bzlpn0p8545f9&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">媽媽</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/eu3k9vhgr092levtuo94t/Tickets_MezquitaCatedralDeCordoba_BellTower_Yvonne.pdf?rlkey=38rmmmppkj8haf4wzv9bkmeom&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">Yvonne</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/nwu2nqt6xc4s43lazn5jf/Tickets_MezquitaCatedralDeCordoba_BellTower_Jacky.pdf?rlkey=e6xwvkkm1gtvo32b9zudsthyj&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">Jacky</a>
+	            <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/eqc6samj5udak2j8sxhd7/Tickets_MezquitaCatedralDeCordoba_BellTower_Mom.pdf?rlkey=wmd29ugfvfw5bzlpn0p8545f9&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 0.85em; font-weight: bold;">媽媽</a>
 	        </div>
 	    </div>
 	</div>
@@ -1176,9 +1183,9 @@
             <div style="text-align: center; margin-bottom: 20px;">
                 <b style="color: #2c3e50;">去程：Sevilla → Cádiz (08:32 - 10:18)</b>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/w6fr16ex9fkdf2gct7r6k/Renfe-ticket_Sevilla_Cadiz_Yvonne.pdf?rlkey=ral1r5evd3huwlgr4nqelsvuu&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #2980b9;">🎟️<br>Yvonne</a>
-                    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/2eounhpxpxf1ew2s1xelnp/Renfe-ticket_Sevilla_Cadiz_Jacky.pdf?rlkey=xsnmdfqsltix1nnuzmtfcanit&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #27ae60;">🎟️<br>Jacky</a>
-                    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/jcm3t7lysoxbeq7kf0rhf/Renfe-ticket_Sevilla_Cadiz_Mom.pdf?rlkey=0sb8gdp898by6dnwndnn1i8c5&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #d35400;">🎟️<br>媽媽</a>
+                    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/w6fr16ex9fkdf2gct7r6k/Renfe-ticket_Sevilla_Cadiz_Yvonne.pdf?rlkey=ral1r5evd3huwlgr4nqelsvuu&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #2980b9;">🎟️<br>Yvonne</a>
+                    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/2eounhpxpxf1ew2s1xelnp/Renfe-ticket_Sevilla_Cadiz_Jacky.pdf?rlkey=xsnmdfqsltix1nnuzmtfcanit&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #27ae60;">🎟️<br>Jacky</a>
+                    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/jcm3t7lysoxbeq7kf0rhf/Renfe-ticket_Sevilla_Cadiz_Mom.pdf?rlkey=0sb8gdp898by6dnwndnn1i8c5&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #d35400;">🎟️<br>媽媽</a>
                 </div>
             </div>
 
@@ -1187,9 +1194,9 @@
             <div style="text-align: center;">
                 <b style="color: #2c3e50;">回程：Cádiz → Sevilla (17:24 - 19:06)</b>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/pqw8vbn4s9ef72x117122/Renfe-ticket_Cadiz_Sevilla_Yvonne.pdf?rlkey=siay8p3gej60jvun8he56oo56&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #2980b9;">🎟️<br>Yvonne</a>
-                    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/bjapzeamgbr7ety86pdj6/Renfe-ticket_Cadiz_Sevilla_Jacky.pdf?rlkey=2323tvwjegzf75vkct608f6n8&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #27ae60;">🎟️<br>Jacky</a>
-                    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/6zw15v168qoim1bjqum0x/Renfe-ticket_Cadiz_Sevilla_Mom.pdf?rlkey=407dvru2vi4dxwbulubov3c1l&raw=1" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #d35400;">🎟️<br>媽媽</a>
+                    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/pqw8vbn4s9ef72x117122/Renfe-ticket_Cadiz_Sevilla_Yvonne.pdf?rlkey=siay8p3gej60jvun8he56oo56&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #3498db; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #2980b9;">🎟️<br>Yvonne</a>
+                    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/bjapzeamgbr7ety86pdj6/Renfe-ticket_Cadiz_Sevilla_Jacky.pdf?rlkey=2323tvwjegzf75vkct608f6n8&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #2ecc71; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #27ae60;">🎟️<br>Jacky</a>
+                    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/6zw15v168qoim1bjqum0x/Renfe-ticket_Cadiz_Sevilla_Mom.pdf?rlkey=407dvru2vi4dxwbulubov3c1l&raw=1')" target="_blank" style="flex: 1; max-width: 90px; background: #e67e22; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #d35400;">🎟️<br>媽媽</a>
                 </div>
             </div>
         </div>
@@ -1280,9 +1287,9 @@
                 <span style="font-size: 1.1em; color: #e74c3c; font-weight: bold;">08:32 - 11:12</span>
                 
                 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
-                    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/qar1ypleg3fwy30jhz9y3/renfe-ticket_Seville_Madrid_Yvonne.pdf?rlkey=ie7hs1hkmckh07ljgrrl7yexh&raw=1" target="_blank" style="flex: 1; max-width: 95px; background: #3498db; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #2980b9;">🎟️<br>Yvonne</a>
-                    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/ij2oqtnvdvjkme4vw18e2/renfe-ticket_Seville_Madrid_Jacky.pdf?rlkey=ubffqrk8wzfcupcoz9b3fncd3&raw=1" target="_blank" style="flex: 1; max-width: 95px; background: #2ecc71; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #27ae60;">🎟️<br>Jacky</a>
-                    <a href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://dl.dropboxusercontent.com/scl/fi/ee8nyptfbzhrc303vc221/renfe-ticket_Seville_Madrid_Mom.pdf?rlkey=curejt4q1u1wmc4ak75d06teq&raw=1" target="_blank" style="flex: 1; max-width: 95px; background: #e67e22; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #d35400;">🎟️<br>媽媽</a>
+                    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/qar1ypleg3fwy30jhz9y3/renfe-ticket_Seville_Madrid_Yvonne.pdf?rlkey=ie7hs1hkmckh07ljgrrl7yexh&raw=1')" target="_blank" style="flex: 1; max-width: 95px; background: #3498db; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #2980b9;">🎟️<br>Yvonne</a>
+                    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/ij2oqtnvdvjkme4vw18e2/renfe-ticket_Seville_Madrid_Jacky.pdf?rlkey=ubffqrk8wzfcupcoz9b3fncd3&raw=1')" target="_blank" style="flex: 1; max-width: 95px; background: #2ecc71; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #27ae60;">🎟️<br>Jacky</a>
+                    <a href="javascript:void(0)" onclick="openTicket('https://dl.dropboxusercontent.com/scl/fi/ee8nyptfbzhrc303vc221/renfe-ticket_Seville_Madrid_Mom.pdf?rlkey=curejt4q1u1wmc4ak75d06teq&raw=1')" target="_blank" style="flex: 1; max-width: 95px; background: #e67e22; color: white; padding: 12px 5px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.9em; border: 2px solid #d35400;">🎟️<br>媽媽</a>
                 </div>
             </div>
         </div>
@@ -1509,10 +1516,31 @@
         }
     }
 
+	// 檢視PDF
+	function openTicket(url) {
+	    const modal = document.getElementById('pdf-modal-overlay');
+	    const viewer = document.getElementById('pdf-viewer');
+	    
+	    // 關鍵：將 dl=0 或 raw=1 統一換成直接預覽格式
+	    // 如果網址已有參數用 &，沒有用 ?
+	    const finalUrl = url.includes('?') ? `${url}&raw=1` : `${url}?raw=1`;
+	    
+	    viewer.src = finalUrl;
+	    modal.style.display = 'block';
+	}
+	
+	function closePdfModal(e) {
+	    if (!e || e.target.id === 'pdf-modal-overlay') {
+	        document.getElementById('pdf-modal-overlay').style.display = 'none';
+	        document.getElementById('pdf-viewer').src = ''; // 關閉時清空，節省效能
+	    }
+	}
+
     updateWeather();
 </script>
 </body>
 </html>
+
 
 
 
